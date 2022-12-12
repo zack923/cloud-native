@@ -4,6 +4,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import {_HttpClient} from "@delon/theme";
 import {Router} from "@angular/router";
+import {HttpContext} from "@angular/common/http";
+import {ALLOW_ANONYMOUS} from "@delon/auth";
 
 @Component({
   selector: 'app-basic-list-add',
@@ -13,18 +15,10 @@ export class EditComponent {
   record: any = {};
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: 'name' },
-      diet: { type: 'string', title: 'diet' },
-      period: { type: 'string', title: 'period' },
-      lived_in: { type: 'string', title: 'lived in' },
-      type: { type: 'string', title: 'type' },
-      length: { type: 'string', title: 'length' },
-      taxonomy: { type: 'string', title: 'taxonomy' },
-      named_by: { type: 'string', title: 'named by' },
-      species: { type: 'string', title: 'species' },
-      avatar_url: { type: 'string', title: 'avatar' },
+      videoName: { type: 'string', title: 'Video Name' },
+      description: { type: 'string', title: 'Description' },
     },
-    required: ['name', 'diet', 'period', 'lived_in', 'type', 'length', 'taxonomy', 'named_by', 'species', 'avatar_url'],
+    required: ['Video Name', 'Description'],
     ui: {
       spanLabelFixed: 150,
       grid: { span: 24 }
@@ -34,7 +28,16 @@ export class EditComponent {
   constructor(private modal: NzModalRef, private msg: NzMessageService, public http: _HttpClient, private router: Router) {}
 
   save(value: any): void {
-    this.http.put('/api/dinosaurs/update', value).subscribe(res => {
+    const data = new FormData();
+    data.append('videoName', String(value.videoName))
+    data.append('description', String(value.description))
+
+    this.http.put('https://prod-05.centralus.logic.azure.com/workflows/e3f71b39e1c14f429166941399e89ca3/triggers/manual/paths/invoke/'+ value.id +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2uaPp9ULaSUQsND6cYmtvK-5aQkYIDHbfzh346Tg4J8',
+      data,
+      {
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      })
+      .subscribe(res => {
       if (res.msg !== 'ok') {
         this.msg.error(res.msg, {nzDuration: 3000});
         return;

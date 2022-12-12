@@ -15,7 +15,10 @@ export class ProAccountCenterArticlesComponent {
 
   q = {
     name: '',
-    show: true
+    show: true,
+    pi: 1,
+    ps: 8,
+    total: 0
   };
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private router: Router, private msg: NzMessageService) {}
 
@@ -26,13 +29,14 @@ export class ProAccountCenterArticlesComponent {
   getData(): void {
     this.loading = true;
     this.q.show = true;
-    this.http.get('https://logiczack1234.azurewebsites.net/api/user-comment/triggers/manual/invoke/'+ this.userId +'?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=iOL7xWtrWdy9_CeyDGRZG0DECu5lgAiMoCEvm4_zqaQ',
+    this.http.get('https://prod-23.centralus.logic.azure.com/workflows/0599db81c069424e8b49e7f037937970/triggers/manual/paths/invoke/'+ this.userId +'/'+ this.q.ps * (this.q.pi - 1) +'/'+ this.q.ps +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=APlbsf7hFIiVT4138qdu-wY4FdQrxJpltBT_LHCBmdI',
       null,
       {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
       })
       .subscribe(res => {
-        this.list = res;
+        this.list = res.review;
+        this.q.total = res.total;
         this.loading = false;
         this.cdr.detectChanges();
       });
@@ -42,8 +46,12 @@ export class ProAccountCenterArticlesComponent {
     this.router.navigate(['/home/details'],{ queryParams: { id: videoId }});
   }
 
-  remove(reviewId: any): void {
-    this.http.delete('/api/reviews/delete', {reviewId: reviewId})
+  remove(id: any): void {
+    this.http.delete('https://prod-04.centralus.logic.azure.com/workflows/9e6913507f594fba9e2817c79ca0ecd9/triggers/manual/paths/invoke/'+ id +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=euNexsyf8xt3JvHcZKWdjuW3K-j1O2ZoFc-aWPijJEo',
+      null,
+      {
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      })
       .subscribe(res => {
         if (res.msg != 'ok') {
           this.msg.error('Delete failed');
@@ -53,6 +61,11 @@ export class ProAccountCenterArticlesComponent {
         this.msg.success('Delete succeeded');
         this.getData();
       });
+  }
+
+  listChange(e: number): void {
+    this.q.pi = e;
+    this.getData();
   }
 
   ngOnInit(): void {

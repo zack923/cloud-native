@@ -6,6 +6,8 @@ import { ProAccountCenterComponent } from './account/center/center.component';
 import { ProAccountCenterProjectsComponent } from './account/center/collections/collections.component';
 import { ProDinosaurListComponent} from './list/dinosaurList/dinosaurList.component';
 import {PageGuard} from "@core";
+import {ProUserDetailCollectionsComponent} from "./userDetail/collections/userCollections.component";
+import {ProUserDetailComponent} from "./userDetail/userDetail.component";
 
 const routes: Routes = [
   {
@@ -34,6 +36,17 @@ const routes: Routes = [
             data: { titleI18n: 'pro-account-center' }
           }
         ]
+      }
+    ]
+  },
+  {
+    path: 'userDetail',
+    component: ProUserDetailComponent,
+    children: [
+      { path: '', redirectTo: 'collections', pathMatch: 'full' },
+      {
+        path: 'collections',
+        component: ProUserDetailCollectionsComponent,
       }
     ]
   }

@@ -13,12 +13,11 @@
         </ng-template>
         <nz-card-meta [nzTitle]="nzTitle">
           <ng-template #nzTitle>
-            <a (click)="goPage(item.videoId)">{{ item.videoName }}</a>
+            <a (click)="goPage(item.id)">{{ item.videoName }}</a>
           </ng-template>
         </nz-card-meta>
         <div class="card-item-content">
           <span class="text-grey">{{ item.lived_in }}</span>
-          <a nz-icon nzType="delete" (nzOnConfirm)="remove(item.id)" nzTheme="outline" class="mr-sm" nz-popconfirm nzOkText="Ok" nzPopconfirmTitle="Are you sure?" nzCancelText="cancel"></a>
         </div>
       </nz-card>
     </nz-list-item>

@@ -11,16 +11,14 @@
           <a (click)="edit(item)">Edit</a>
         </ng-template>
         <ng-template #op2>
-          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" nzOkText="Ok" nzCancelText="cancel" (nzOnConfirm)="remove(item.dinosaurId)" >Delete</a>
+          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" nzOkText="Ok" nzCancelText="cancel" (nzOnConfirm)="remove(item.id)" >Delete</a>
         </ng-template>
         <nz-card-meta [nzAvatar]="nzAvatar" [nzTitle]="nzTitle" [nzDescription]="nzDescription">
           <ng-template #nzAvatar>
-            <video width='150' height='150' controls>
-              <source [src]="'https://blobstoragezack1234.blob.core.windows.net' + item.filePath">
-            </video>
+            <nz-avatar nzSize="large" [nzSrc]="'https://blobzack1234.blob.core.windows.net' + item.imgPath"></nz-avatar>
           </ng-template>
           <ng-template #nzTitle>
-            <a (click)="goPage(item.id)">{{ item.fileName }}</a>
+            <a (click)="goPage(item.id)">{{ item.videoName }}</a>
           </ng-template>
           <ng-template #nzDescription>
             <ellipsis>{{ item.description }}</ellipsis>
@@ -30,6 +28,7 @@
     </nz-list-item>
   </ng-template>
   <ng-template #pagination>
-    <nz-pagination *ngIf="q.show" [nzPageIndex]="q.pi" [nzPageSize]="q.ps" [nzTotal]="q.total" (nzPageIndexChange)="listChange($event)"></nz-pagination>
+    <nz-pagination *ngIf="q.show" [nzPageIndex]="q.pi" [nzPageSize]="q.ps" [nzTotal]="q.total" (nzPageIndexChange)="listChange($event)" [nzShowTotal]="totalTemplate"></nz-pagination>
+    <ng-template #totalTemplate let-total>Total {{ q.total }} items</ng-template>
   </ng-template>
 </nz-list>

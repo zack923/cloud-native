@@ -80,7 +80,7 @@ export class UserLoginComponent implements OnDestroy {
     this.cdr.detectChanges();
     this.http
       .post(
-        'https://logiczack1234.azurewebsites.net:443/api/user-login/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=md97yL5RApGa0d_tFx2mQLKdAl9T7sKxTgTxGhcHDIU',
+        'https://prod-21.centralus.logic.azure.com:443/workflows/d7719650bfa64a468ab9930cb5598141/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dJKOCv-8rpz5jCmPGFhwQK3wmE8I01VbJw5pv0L8p8M',
         data,
         null,
         {

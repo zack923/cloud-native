@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject} from '@angular/core';
 import {_HttpClient, SettingsService} from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {HttpContext} from "@angular/common/http";
 import {ALLOW_ANONYMOUS} from "@delon/auth";
 
@@ -21,7 +21,7 @@ export class ProDetailsComponent {
   dinosaur: any[] = []
 
   getData(): void {
-    this.http.get('https://logiczack1234.azurewebsites.net/api/video-details/triggers/manual/invoke/'+ this.activatedRoute.snapshot.queryParams['id'] +'?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hcpl2vCd82bxpyIStTiFbDuie-nflUqeVePrFFOFAag',
+    this.http.get('https://prod-26.centralus.logic.azure.com/workflows/b75b1417b917460eae44021331af3130/triggers/manual/paths/invoke/'+ this.activatedRoute.snapshot.queryParams['id'] +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=bc0IfG_rGqgPYDGkOOyUKpqpIIfaalHO7kjHYT9dHtc',
       null,
       {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
@@ -34,13 +34,14 @@ export class ProDetailsComponent {
   }
 
   getReviews(): void {
-    this.http.get('https://logiczack1234.azurewebsites.net/api/get-item-comment/triggers/manual/invoke/'+ this.activatedRoute.snapshot.queryParams['id'] +'/'+ this.q.ps * (this.q.pi - 1) +'/'+ this.q.ps +'?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=rYv3LUCKrn7r5XlLFgONkEUjjtNT6inpCI9j7XiJgbw',
+    this.http.get('https://prod-17.centralus.logic.azure.com/workflows/8e3fd00c98ee47c280a8991a64214bba/triggers/manual/paths/invoke/'+ this.activatedRoute.snapshot.queryParams['id'] +'/'+ this.q.ps * (this.q.pi - 1) +'/'+ this.q.ps +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RYt3otkU2yq5TsuTki70NXetBvATQTEmHekYdk-FMAI',
       null,
       {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
       })
       .subscribe(res => {
-        this.reviews = res;
+        this.reviews = res.review;
+        this.q.total = res.total;
         this.loading = false;
         this.cdr.detectChanges();
       })
@@ -73,7 +74,7 @@ export class ProDetailsComponent {
     data.append('videoId', String(this.activatedRoute.snapshot.queryParams['id']))
     data.append('text', String(content))
 
-    this.http.post('https://logiczack1234.azurewebsites.net:443/api/add-comment/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=j4tQg4hYWbZjyP9PQvaDQ4iY1ofE0aKdUt9sGX4vuBU',
+    this.http.post('https://prod-27.centralus.logic.azure.com:443/workflows/6f09091251f44327bc6c617eb24fc25e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=WOjUlFw2KmWsFoSSXpoqZ60acRRIgh7MUYtlhuRlSrI',
       data,
       null,
       {
@@ -98,7 +99,7 @@ export class ProDetailsComponent {
     data.append('userId', String(this.user.userId))
     data.append('videoId', String(this.activatedRoute.snapshot.queryParams['id']))
 
-    this.http.post('https://logiczack1234.azurewebsites.net:443/api/add-collection/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=8G-otEVvvIDgX6EclWYRzgWlC14yVoB9SExjCoPqDoc',
+    this.http.post('https://prod-27.centralus.logic.azure.com:443/workflows/6ccb308d9a5548eca3c2dae477e9e30f/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=tGf9F2MjVmNsC9UvZPmW0-WUFZehEdUNBkM2jrdp9f0',
       data,
       null,
       {
@@ -117,7 +118,7 @@ export class ProDetailsComponent {
   }
 
   whetherCollect(): void {
-    this.http.get('https://logiczack1234.azurewebsites.net/api/whether-collect/triggers/manual/invoke/'+ this.user.userId +'/'+ this.activatedRoute.snapshot.queryParams['id'] +'?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XgaWszMI8v5QRi0dppUku97-zluu_BW3Ark72pyZLjI',
+    this.http.get('https://prod-15.centralus.logic.azure.com/workflows/6eaff82c2a3243cbbb0fcb905fcc476c/triggers/manual/paths/invoke/'+ this.user.userId +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5BcVG_5cwbBzRbBNbUCqqOiUTSApgXwt8nmVmTcFJ2w',
       null,
       {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
@@ -132,5 +133,9 @@ export class ProDetailsComponent {
       })
   }
 
-  constructor(private http: _HttpClient, private msg: NzMessageService, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(private http: _HttpClient, private msg: NzMessageService, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private router: Router) {}
+
+  goUserPage(userId: string) {
+    this.router.navigate(['/pro/userDetail'],{ queryParams: { userId: userId }});
+  }
 }

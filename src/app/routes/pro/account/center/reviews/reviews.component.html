@@ -1,13 +1,16 @@
-<nz-list nzItemLayout="vertical" [nzLoading]="loading">
+<nz-list nzItemLayout="vertical" [nzLoading]="loading" [nzPagination]="pagination">
   <nz-list-item *ngFor="let item of list" nzNoFlex>
     <div style="float: right;">
-      <a nz-icon nzType="delete" nzTheme="outline" class="mr-sm" nz-popconfirm nzPopconfirmTitle="Are you sure?" nzOkText="Ok" nzCancelText="cancel" (nzOnConfirm)="remove(item.reviewId)"></a>
+      <a nz-icon nzType="delete" nzTheme="outline" class="mr-sm" nz-popconfirm nzPopconfirmTitle="Are you sure?" nzOkText="Ok" nzCancelText="cancel" (nzOnConfirm)="remove(item.id)"></a>
     </div>
     <p>{{ item.text }}</p>
     <div class="mt-md d-flex">
-      <span class="px-sm">Video Id : </span>
-      <a (click)="goPage(item.videoId)" target="_blank">{{ item.videoId }}</a>
-      <span class="pl-md text-grey">{{ item.date }}</span>
+      <span class="px-sm">Video Name : </span>
+      <a (click)="goPage(item.videoId)" target="_blank">{{ item.videoName }}</a>
     </div>
   </nz-list-item>
+  <ng-template #pagination>
+    <nz-pagination *ngIf="q.show" [nzPageIndex]="q.pi" [nzPageSize]="q.ps" [nzTotal]="q.total" (nzPageIndexChange)="listChange($event)" [nzShowTotal]="totalTemplate"></nz-pagination>
+    <ng-template #totalTemplate let-total>Total {{ q.total }} items</ng-template>
+  </ng-template>
 </nz-list>

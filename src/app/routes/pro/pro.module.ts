@@ -15,6 +15,8 @@ import { ProDinosaurListComponent } from './list/dinosaurList/dinosaurList.compo
 import { ProRoutingModule } from './pro-routing.module';
 import {AddComponent} from "./list/dinosaurList/add/add.component";
 import {EditComponent} from "./list/dinosaurList/edit/edit.component";
+import {ProUserDetailComponent} from "./userDetail/userDetail.component";
+import {ProUserDetailCollectionsComponent} from "./userDetail/collections/userCollections.component";
 
 const COMPONENTS = [
   ProDinosaurListComponent,
@@ -23,6 +25,8 @@ const COMPONENTS = [
   ProAccountCenterComponent,
   ProAccountCenterArticlesComponent,
   ProAccountCenterProjectsComponent,
+  ProUserDetailComponent,
+  ProUserDetailCollectionsComponent
 ];
 
 @NgModule({

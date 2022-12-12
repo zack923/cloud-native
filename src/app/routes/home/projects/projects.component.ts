@@ -36,14 +36,14 @@ export class ProListProjectsComponent implements OnInit {
   getData(): void {
     this.loading = true;
     this.q.show = true;
-    this.http.get('https://logiczack1234.azurewebsites.net/api/item-list/triggers/manual/invoke/'+ this.q.ps * (this.q.pi - 1) +'/'+ this.q.ps +'?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vdMkGt7qSMKchiFfMbzKuNrDvv5FYAD-0DsySMh3gSM',
+    this.http.get('https://prod-28.centralus.logic.azure.com/workflows/7f48bf7e38744460bf20a4fd0dd0a55e/triggers/manual/paths/invoke/'+ this.q.ps * (this.q.pi - 1) +'/'+ this.q.ps +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jA6-83eJDfedGHpkd3nDgokt-QvaQ_VqyXLyHogq34k',
       null,
       {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
       })
       .subscribe(res => {
-      this.list = res
-      console.info(this.list);
+      this.list = res.video;
+      this.q.total = res.total;
       this.loading = false;
       this.cdr.detectChanges();
     });

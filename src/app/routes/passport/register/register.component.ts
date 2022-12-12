@@ -90,7 +90,7 @@ export class UserRegisterComponent implements OnDestroy {
     this.loading = true;
     this.cdr.detectChanges();
     this.http
-      .post('https://logiczack1234.azurewebsites.net:443/api/user-register/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xF8yo1f4TIzOKY8srUiqIkYrkYD_f_hGbkBfiYwzbno',
+      .post('https://prod-13.centralus.logic.azure.com:443/workflows/5b23cc15c84d4ab999aca019610da0f2/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5o4gWWh5lfWfkMDb4goFVJEvamxzjejwUOXO05P4vDU',
         data, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
       })

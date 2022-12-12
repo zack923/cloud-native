@@ -47,20 +47,25 @@ export class ProDinosaurListComponent implements OnInit {
     this.loading = true;
     this.q.show = true;
     this.list = [null];
-    this.http.get('https://logiczack1234.azurewebsites.net/api/user-item-list/triggers/manual/invoke/'+ this.user.userId +'/'+ this.q.ps * (this.q.pi - 1) +'/'+ this.q.ps +'?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ibtrA3B8A0UZH4YTpp9iF1li471gDkcs4uuFYxvOKuE',
+    this.http.get('https://prod-23.centralus.logic.azure.com/workflows/dd4d305b37594a09b108a59fe4cf60c0/triggers/manual/paths/invoke/'+ this.user.userId +'/'+ this.q.ps * (this.q.pi - 1) +'/'+ this.q.ps +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MAIp4XkEeL_7CLmNL5RSUfmimDK8uc3Ugp_sQZGA3CQ',
       null,
       {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
       })
       .subscribe(res => {
-        this.list = this.list.concat(res);
+        this.list = this.list.concat(res.video);
+        this.q.total = res.total;
         this.loading = false;
         this.cdr.detectChanges();
       });
   }
 
-  remove(dinosaurId: any): void {
-    this.http.delete('/api/dinosaurs/delete', {dinosaurId: dinosaurId})
+  remove(id: any): void {
+    this.http.delete('https://prod-10.centralus.logic.azure.com/workflows/f6acf8ba19bd43ef88b0cb2cfd0258a5/triggers/manual/paths/invoke/'+ id +'?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2jAIYthynfcKFV5R27FvRbGYydO5Az7Geb8J9r25Axg',
+      null,
+      {
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      })
       .subscribe(res => {
         if (res.msg != 'ok') {
           this.msg.error('Delete failed');
@@ -86,7 +91,7 @@ export class ProDinosaurListComponent implements OnInit {
     this.mh.create(AddComponent).subscribe(console.log);
   }
 
-  edit(record: { id?: number } = {}): void {
+  edit(record: { id?: string } = {}): void {
     this.mh.create(EditComponent, { record }, { size: 'md' }).subscribe(res => {
       this.cdr.detectChanges();
     });
