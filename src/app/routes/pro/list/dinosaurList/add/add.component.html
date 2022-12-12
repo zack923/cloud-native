@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <div class="modal-title">Release</div>
+</div>
+<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="save()">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input video name!">
+      <nz-input-group>
+        <input type="text" nz-input formControlName="fileName" placeholder="Video Name" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please choose video">
+      <nz-input-group>
+        <input type="file" id="upFile" formControlName="file" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input description!">
+      <nz-input-group>
+        <textarea style="height: 20vh" nz-input formControlName="description" placeholder="Description"></textarea>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Release</button>
+</form>

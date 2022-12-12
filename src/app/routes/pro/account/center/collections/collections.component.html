@@ -1,0 +1,27 @@
+<nz-list
+  [nzLoading]="listLoading"
+  [nzRenderItem]="item"
+  [nzDataSource]="list"
+  [nzGrid]="{ gutter: 24, lg: 6, md: 8, sm: 12, xs: 24 }"
+>
+  <ng-template #item let-item>
+    <nz-list-item>
+      <nz-card nzHoverable [nzCover]="cover">
+        <ng-template #cover>
+          <video width='200' height='200' controls>
+            <source [src]="'https://blobstoragezack1234.blob.core.windows.net' + item.filePath">
+          </video>
+        </ng-template>
+        <nz-card-meta [nzTitle]="nzTitle">
+          <ng-template #nzTitle>
+            <a (click)="goPage(item.videoId)">{{ item.videoName }}</a>
+          </ng-template>
+        </nz-card-meta>
+        <div class="card-item-content">
+          <span class="text-grey">{{ item.lived_in }}</span>
+          <a nz-icon nzType="delete" (nzOnConfirm)="remove(item.id)" nzTheme="outline" class="mr-sm" nz-popconfirm nzOkText="Ok" nzPopconfirmTitle="Are you sure?" nzCancelText="cancel"></a>
+        </div>
+      </nz-card>
+    </nz-list-item>
+  </ng-template>>
+</nz-list>

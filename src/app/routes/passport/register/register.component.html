@@ -1,0 +1,77 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
+  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="userErrorTip">
+      <nz-input-group nzSize="large" nzPrefixIcon="user">
+        <input id="username" nz-input formControlName="userName" placeholder="Username" />
+      </nz-input-group>
+      <ng-template #userErrorTip let-i>
+        <ng-container *ngIf="i.errors?.required">{{'Please enter username!'}}</ng-container>
+        <ng-container *ngIf="i.errors?.minlength || i.errors?.maxlength">{{'Username must be 5-12 digits!'}}</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="mailErrorTip">
+      <nz-input-group nzSize="large" nzPrefixIcon="mail">
+        <input id="email" nz-input formControlName="mail" placeholder="Email" />
+      </nz-input-group>
+      <ng-template #mailErrorTip let-i>
+        <ng-container *ngIf="i.errors?.required">{{ 'Please enter your email!' }}</ng-container>
+        <ng-container *ngIf="i.errors?.email">{{ 'The email address is in the wrong format!' }}</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Password must be 5-12 digits!">
+      <nz-input-group
+        nzSize="large"
+        nzPrefixIcon="lock"
+        nz-popover
+        nzPopoverPlacement="right"
+        nzPopoverTrigger="focus"
+        [(nzPopoverVisible)]="visible"
+        nzPopoverOverlayClassName="register-password-cdk"
+        [nzPopoverOverlayStyle]="{ 'width.px': 240 }"
+        [nzPopoverContent]="pwdCdkTpl"
+      >
+        <input id="password" nz-input type="password" formControlName="password" placeholder="Password" />
+      </nz-input-group>
+      <ng-template #pwdCdkTpl let-i>
+        <div style="padding: 4px 0">
+          <ng-container [ngSwitch]="status">
+            <div *ngSwitchCase="'ok'" class="success">{{ 'Strength: strong' }}</div>
+            <div *ngSwitchCase="'pass'" class="warning">{{ 'Strength: medium' }}</div>
+            <div *ngSwitchDefault class="error">{{ 'Strength: too short' }}</div>
+          </ng-container>
+          <div class="progress-{{ status }}">
+            <nz-progress
+              [nzPercent]="progress"
+              [nzStatus]="passwordProgressMap[status]"
+              [nzStrokeWidth]="6"
+              [nzShowInfo]="false"
+            ></nz-progress>
+          </div>
+          <p class="mt-sm">{{ 'Please enter at least 5 characters and don\'\ t use passwords that are easy to guess.' }}</p>
+        </div>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="confirmErrorTip">
+      <nz-input-group nzSize="large" nzPrefixIcon="lock">
+        <input id="confirm" nz-input type="password" formControlName="confirm" placeholder="Confirm Password" />
+      </nz-input-group>
+      <ng-template #confirmErrorTip let-i>
+        <ng-container *ngIf="i.errors?.required">{{ 'Please confirm your password!' }}</ng-container>
+        <ng-container *ngIf="i.errors?.matchControl">{{ 'The passwords entered twice do not match!' }}</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <button nz-button nzType="primary" nzSize="large" type="submit" [nzLoading]="loading" class="submit">
+      {{ 'Register' }}
+    </button>
+    <a class="login" routerLink="/passport/login">{{ 'Already have an account?' }}</a>
+  </nz-form-item>
+</form>

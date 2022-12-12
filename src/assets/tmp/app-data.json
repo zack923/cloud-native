@@ -1,0 +1,36 @@
+{
+  "app": {
+    "description": "Ng-zorro admin panel front-end framework"
+  },
+  "menu": [
+    {
+      "text": "home",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
+          "text": "Videos",
+          "icon": "anticon-profile",
+          "link": "/home/projects"
+        }
+      ]
+    },
+    {
+      "text": "Manage",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
+          "icon": "anticon-appstore",
+          "text": "Release And Manage",
+          "link": "/pro/list/dinosaurList"
+        },
+        {
+          "icon": "anticon-user",
+          "text": "Account Center",
+          "link": "/pro/account/center"
+        }
+      ]
+    }
+  ]
+}

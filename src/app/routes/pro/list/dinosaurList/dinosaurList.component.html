@@ -1,0 +1,35 @@
+<page-header [title]="'Release And Manage'"></page-header>
+<nz-list [nzLoading]="loading" [nzDataSource]="list" [nzPagination]="pagination" [nzRenderItem]="item" [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }">
+  <ng-template #item let-item>
+    <nz-list-item>
+      <button *ngIf="item === null" nz-button (click)="open()" nzType="dashed" style="width: 100%; height: 193px">
+        <i nz-icon nzType="plus"></i>
+        <span>Release Videos</span>
+      </button>
+      <nz-card nzHoverable *ngIf="item != null" [nzActions]="[op1, op2]">
+        <ng-template #op1>
+          <a (click)="edit(item)">Edit</a>
+        </ng-template>
+        <ng-template #op2>
+          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" nzOkText="Ok" nzCancelText="cancel" (nzOnConfirm)="remove(item.dinosaurId)" >Delete</a>
+        </ng-template>
+        <nz-card-meta [nzAvatar]="nzAvatar" [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+          <ng-template #nzAvatar>
+            <video width='150' height='150' controls>
+              <source [src]="'https://blobstoragezack1234.blob.core.windows.net' + item.filePath">
+            </video>
+          </ng-template>
+          <ng-template #nzTitle>
+            <a (click)="goPage(item.id)">{{ item.fileName }}</a>
+          </ng-template>
+          <ng-template #nzDescription>
+            <ellipsis>{{ item.description }}</ellipsis>
+          </ng-template>
+        </nz-card-meta>
+      </nz-card>
+    </nz-list-item>
+  </ng-template>
+  <ng-template #pagination>
+    <nz-pagination *ngIf="q.show" [nzPageIndex]="q.pi" [nzPageSize]="q.ps" [nzTotal]="q.total" (nzPageIndexChange)="listChange($event)"></nz-pagination>
+  </ng-template>
+</nz-list>

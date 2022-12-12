@@ -1,0 +1,31 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
+  <nz-tabset [nzAnimated]="false" class="tabs" (nzSelectChange)="switch($event)" [nzCentered]="true">
+    <nz-tab [nzTitle]="'Credentials'">
+      <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Username must be 5-12 digits!">
+          <nz-input-group nzSize="large" nzPrefixIcon="user">
+            <input nz-input id="username" formControlName="userName" placeholder="Please enter username!" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Password must be 5-12 digits!">
+          <nz-input-group nzSize="large" nzPrefixIcon="lock">
+            <input nz-input id="password" type="password" formControlName="password" placeholder="Please enter password!" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-tab>
+  </nz-tabset>
+  <nz-form-item>
+    <nz-col [nzSpan]="24" class="text-right">
+      <a class="register" routerLink="/passport/register">{{ 'sign up' }}</a>
+    </nz-col>
+  </nz-form-item>
+  <nz-form-item>
+    <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading" nzBlock>
+      {{ 'login' }}
+    </button>
+  </nz-form-item>
+</form>

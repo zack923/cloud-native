@@ -1,0 +1,48 @@
+<page-header [title]="'Details Page'"></page-header>
+<nz-card *ngFor="let item of dinosaur" [nzHoverable]="true" [nzBordered]="false" >
+  <div style="float: right">
+    <button nz-button nzType="primary" nzShape="round" (click)="addToCollection()" [disabled]="q.status">Favorite</button>
+  </div>
+  <div style="text-align: center;">
+    <video width='750' height='400' controls>
+      <source [src]="'https://blobstoragezack1234.blob.core.windows.net' + item.filePath">
+    </video>
+  </div>
+  <div>
+    <nz-descriptions nzTitle="Video Information">
+      <nz-descriptions-item nzTitle="Video Name">{{item.fileName}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Upload By">{{item.username}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Description">{{item.description}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Video Id">{{item.id}}</nz-descriptions-item>
+    </nz-descriptions>
+  </div>
+</nz-card>
+<nz-card [nzBordered]="false">
+  <nz-list *ngIf="reviews.length" [nzPagination]="pagination" [nzDataSource]="reviews" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+    <ng-template #item let-item>
+      <nz-comment [nzAuthor]="item.username" >
+        <nz-comment-content>
+          <p>{{ item.text }}</p>
+        </nz-comment-content>
+      </nz-comment>
+    </ng-template>
+    <ng-template #pagination>
+      <nz-pagination [nzPageIndex]="q.pi" [nzPageSize]="q.ps" [nzTotal]="q.total" (nzPageIndexChange)="listChange($event)" [nzShowTotal]="totalTemplate"></nz-pagination>
+      <ng-template #totalTemplate let-total>Total {{ q.total }} items</ng-template>
+    </ng-template>
+  </nz-list>
+  <nz-comment [nzAuthor]="user.author">
+    <nz-comment-content>
+      <nz-form-item>
+        <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+      </nz-form-item>
+      <form nz-form (ngSubmit)="handleSubmit()">
+        <nz-form-item>
+          <button nz-button nzType="primary" [nzLoading]="submitting" [disabled]="!inputValue">
+            Add Comment
+          </button>
+        </nz-form-item>
+      </form>
+    </nz-comment-content>
+  </nz-comment>
+</nz-card>

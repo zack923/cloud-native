@@ -1,0 +1,13 @@
+<nz-list nzItemLayout="vertical" [nzLoading]="loading">
+  <nz-list-item *ngFor="let item of list" nzNoFlex>
+    <div style="float: right;">
+      <a nz-icon nzType="delete" nzTheme="outline" class="mr-sm" nz-popconfirm nzPopconfirmTitle="Are you sure?" nzOkText="Ok" nzCancelText="cancel" (nzOnConfirm)="remove(item.reviewId)"></a>
+    </div>
+    <p>{{ item.text }}</p>
+    <div class="mt-md d-flex">
+      <span class="px-sm">Video Id : </span>
+      <a (click)="goPage(item.videoId)" target="_blank">{{ item.videoId }}</a>
+      <span class="pl-md text-grey">{{ item.date }}</span>
+    </div>
+  </nz-list-item>
+</nz-list>
