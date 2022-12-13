@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@an
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {Router} from "@angular/router";
-import {tap} from "rxjs";
 import {HttpContext} from "@angular/common/http";
 import {ALLOW_ANONYMOUS} from "@delon/auth";
 
@@ -19,7 +18,7 @@ export class ProListProjectsComponent implements OnInit {
     categories: [],
     owners: ['zxx'],
     type: '',
-    name: '',
+    text: '',
     rate: null,
     total: 0,
     show: true
@@ -60,5 +59,20 @@ export class ProListProjectsComponent implements OnInit {
 
   reset(): void {
     setTimeout(() => this.getData());
+  }
+
+  sentimentAnalysis(): void {
+    const data = new FormData();
+    data.append('text', String(this.q.text))
+
+    this.http.post('https://prod-00.centralus.logic.azure.com:443/workflows/2b606b71fdd44732bb7e9e06ef732fd6/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=HfRYAWLYNGWsDtcmSfH9VC_Jf0F7zxAsfVRgtLmIaDk',
+      data,
+      {
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      })
+      .subscribe(res => {
+        this.msg.success('You are ' + res[0].sentiment + ', and your confidence scores are as follows. positive: ' + res[0].confidenceScores.positive +
+          ', neutral: ' + res[0].confidenceScores.neutral + ', negative: ' + res[0].confidenceScores.negative, {nzDuration: 10000});
+      });
   }
 }

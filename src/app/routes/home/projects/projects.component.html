@@ -1,4 +1,15 @@
 <page-header [title]="'All Videos'">
+  <div class="text-center">
+    <form nz-form (ngSubmit)="sentimentAnalysis()" class="search__form">
+      <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="addOnAfterBtn" style="width: 520px">
+        <input [(ngModel)]="q.text" name="name" type="text" nz-input placeholder="Please enter" />
+        <ng-template #addOnAfterBtn>
+          <button nz-button type="submit" [nzLoading]="loading" nzType="primary" nzSize="large" nzSearch>Analysis</button>
+          <button nz-button type="reset" (click)="reset()" nzSize="large">Reset</button>
+        </ng-template>
+      </nz-input-group>
+    </form>
+  </div>
 </page-header>
 <nz-list [nzLoading]="loading" [nzRenderItem]="item" [nzPagination]="pagination" [nzDataSource]="list" [nzGrid]="{ gutter: 24, lg: 6, md: 8, sm: 12, xs: 24 }">
   <ng-template #item let-item>
